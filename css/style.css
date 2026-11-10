@@ -3159,3 +3159,80 @@ img, svg {
 
 
 
+
+/* Enhanced File Upload State & Interactions */
+.form-file-box.has-file {
+  border-color: #10B981 !important;
+  background-color: rgba(16, 185, 129, 0.08) !important;
+}
+
+.form-file-box.dragover {
+  border-color: var(--color-accent-blue) !important;
+  background-color: rgba(2, 132, 199, 0.12) !important;
+}
+
+.file-selected-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.625rem 0.875rem;
+  background: #FFFFFF;
+  border: 1px solid #A7F3D0;
+  border-radius: var(--radius-sm);
+  margin-top: 0.25rem;
+}
+
+.file-selected-details {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: left;
+  overflow: hidden;
+}
+
+.file-selected-details svg {
+  flex-shrink: 0;
+}
+
+.file-name-text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #065F46;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+}
+
+.file-size-badge {
+  font-size: 0.75rem;
+  color: #047857;
+  background: #D1FAE5;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.file-remove-btn {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #EF4444;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.15rem;
+  line-height: 1;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.file-remove-btn:hover {
+  background: #EF4444;
+  color: #FFFFFF;
+}

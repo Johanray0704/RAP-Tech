@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initPlatformTabs();
   initSmoothScroll();
   initEnquiryForm();
+  initFileUploadHandler();
   initPortfolioGallery();
 });
 
@@ -219,7 +220,7 @@ function initSmoothScroll() {
 }
 
 /**
- * Enquiry Form Handling
+ * Enquiry Form Handling with Dual Delivery (Email + WhatsApp) & File Metadata
  */
 function initEnquiryForm() {
   const form = document.getElementById('projectEnquiryForm');
@@ -233,14 +234,14 @@ function initEnquiryForm() {
     const name = form.querySelector('[name="fullName"]')?.value.trim();
     const company = form.querySelector('[name="companyName"]')?.value.trim();
     const email = form.querySelector('[name="businessEmail"]')?.value.trim();
-    const country = form.querySelector('[name="countryLocation"]')?.value.trim();
-    const phone = form.querySelector('[name="phoneNumber"]')?.value.trim();
+    const country = (form.querySelector('[name="country"]') || form.querySelector('[name="countryLocation"]'))?.value.trim();
+    const phone = (form.querySelector('[name="phone"]') || form.querySelector('[name="phoneNumber"]'))?.value.trim();
     const service = form.querySelector('[name="serviceRequired"]')?.value.trim();
     const cadSoftware = form.querySelector('[name="cadSoftware"]')?.value.trim();
-    const scope = form.querySelector('[name="projectScope"]')?.value.trim();
-    const consent = form.querySelector('[name="ndaConsent"]')?.checked;
+    const scope = (form.querySelector('[name="projectDescription"]') || form.querySelector('[name="projectScope"]'))?.value.trim();
+    const consent = (form.querySelector('[name="ndaConsent"]') || form.querySelector('#ndaConsentCheck'))?.checked;
     const accessKeyInput = form.querySelector('[name="access_key"]');
-    const accessKey = accessKeyInput ? accessKeyInput.value.trim() : '410bd810-3ecf-4177-91ec-199e1de25e80';
+    const accessKey = accessKeyInput ? accessKeyInput.value.trim() : '26748df0-d9b7-47fa-97c8-c7658354fba7';
 
     if (!name || !email) {
       alert('Please fill in required fields (Name and Business Email).');
@@ -251,6 +252,10 @@ function initEnquiryForm() {
       alert('Please acknowledge the privacy and confidentiality statement.');
       return;
     }
+
+    // Check if an attachment is selected
+    const fileInput = form.querySelector('input[type="file"]');
+    const selectedFile = (fileInput && fileInput.files && fileInput.files.length > 0) ? fileInput.files[0] : null;
 
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
@@ -267,6 +272,12 @@ function initEnquiryForm() {
     if (country) msg += "*Location:* " + country + "\n";
     if (service && service !== '-- Select Required Service --') msg += "*Service Required:* " + service + "\n";
     if (cadSoftware) msg += "*CAD Software:* " + cadSoftware + "\n";
+    if (selectedFile) {
+      const sizeStr = selectedFile.size > 1048576 
+        ? (selectedFile.size / (1024 * 1024)).toFixed(2) + ' MB'
+        : (selectedFile.size / 1024).toFixed(1) + ' KB';
+      msg += "*Attached File:* " + selectedFile.name + " (" + sizeStr + ") [Attaching in WhatsApp]\n";
+    }
     if (scope) msg += "*Project Scope:*\n" + scope + "\n";
     msg += "----------------------------------------\n";
     msg += "_Confidential Enquiry via RAP Technologies Website (NDA Protected)_";
@@ -277,6 +288,14 @@ function initEnquiryForm() {
     try {
       const formData = new FormData(form);
       formData.set('access_key', accessKey);
+
+      // Web3Forms Free plan does not support binary file upload (returns error if binary file attached).
+      // We pass the filename & size as text, and omit the binary payload so the email sends cleanly.
+      if (selectedFile) {
+        formData.append('attached_file_name', selectedFile.name);
+        formData.append('attached_file_size', (selectedFile.size / 1024).toFixed(1) + ' KB');
+        formData.delete('fileUpload');
+      }
       
       fetch('https://api.web3forms.com/submit', {
         method: 'POST',
@@ -298,13 +317,127 @@ function initEnquiryForm() {
       submitBtn.innerHTML = originalText;
       form.reset();
 
+      // Reset file box UI
+      const fileBox = form.querySelector('.form-file-box');
+      if (fileBox) {
+        const promptEl = fileBox.querySelector('.file-upload-prompt');
+        const selectedEl = fileBox.querySelector('.file-selected-info');
+        if (promptEl) promptEl.style.display = 'block';
+        if (selectedEl) selectedEl.style.display = 'none';
+        fileBox.classList.remove('has-file');
+      }
+
       if (feedback) {
         feedback.className = 'form-feedback success';
-        feedback.innerHTML = '<strong>Enquiry Successfully Dispatched!</strong> Your project enquiry has been sent to our inbox, and our Engineering Leadership is connected on WhatsApp (+91 9444167875). We will review your specifications under strict NDA and reply within 24 business hours.<br><br>If WhatsApp did not open automatically, <a href=\"' + whatsappUrl + '\" target=\"_blank\" style=\"color: #0284c7; text-decoration: underline; font-weight: 700;\">click here to send on WhatsApp &rarr;</a>';
+        let feedbackHtml = '<strong>Enquiry Successfully Dispatched!</strong> Your project enquiry has been sent to our inbox, and our Engineering Leadership is connected on WhatsApp (+91 9444167875). We will review your specifications under strict NDA and reply within 24 business hours.';
+        if (selectedFile) {
+          feedbackHtml += '<br><br><strong>Note on Attached File (' + selectedFile.name + '):</strong> Please tap the attachment/paperclip icon in the opened WhatsApp chat to send your file directly to our MD.';
+        }
+        feedbackHtml += '<br><br>If WhatsApp did not open automatically, <a href=\"' + whatsappUrl + '\" target=\"_blank\" style=\"color: #0284c7; text-decoration: underline; font-weight: 700;\">click here to send on WhatsApp &rarr;</a>';
+        feedback.innerHTML = feedbackHtml;
         feedback.style.display = 'block';
         feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     }, 600);
+  });
+}
+
+/**
+ * Interactive File Upload Handler (Drag & Drop, Max 25MB check, UI feedback)
+ */
+function initFileUploadHandler() {
+  const fileBoxes = document.querySelectorAll('.form-file-box');
+  
+  fileBoxes.forEach(box => {
+    const fileInput = box.querySelector('input[type="file"]');
+    const promptEl = box.querySelector('.file-upload-prompt');
+    const selectedEl = box.querySelector('.file-selected-info');
+    const nameEl = box.querySelector('.file-name-text');
+    const sizeBadge = box.querySelector('.file-size-badge');
+    const removeBtn = box.querySelector('.file-remove-btn');
+    
+    if (!fileInput) return;
+
+    // Click container to open file picker (unless clicking remove button)
+    box.addEventListener('click', (e) => {
+      if (e.target.closest('.file-remove-btn')) return;
+      fileInput.click();
+    });
+
+    // Drag and drop events
+    ['dragenter', 'dragover'].forEach(eventName => {
+      box.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        box.classList.add('dragover');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      box.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        box.classList.remove('dragover');
+      });
+    });
+
+    box.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      if (dt && dt.files && dt.files.length > 0) {
+        fileInput.files = dt.files;
+        handleFileSelection(fileInput.files[0]);
+      }
+    });
+
+    // Change event when user selects file
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files && fileInput.files.length > 0) {
+        handleFileSelection(fileInput.files[0]);
+      } else {
+        clearFile();
+      }
+    });
+
+    // Remove button click
+    if (removeBtn) {
+      removeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        clearFile();
+      });
+    }
+
+    function handleFileSelection(file) {
+      const maxBytes = 25 * 1024 * 1024; // 25 MB limit
+      if (file.size > maxBytes) {
+        const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+        alert('File size exceeds the 25 MB limit (' + sizeMb + ' MB).\n\nPlease attach a file under 25 MB, or share a Google Drive / OneDrive / WeTransfer link in the Project Scope description.');
+        clearFile();
+        return;
+      }
+
+      // Format size
+      const sizeStr = file.size > 1048576 
+        ? (file.size / (1024 * 1024)).toFixed(2) + ' MB'
+        : (file.size / 1024).toFixed(1) + ' KB';
+
+      if (promptEl) promptEl.style.display = 'none';
+      if (selectedEl) selectedEl.style.display = 'flex';
+      if (nameEl) {
+        nameEl.textContent = file.name;
+        nameEl.title = file.name;
+      }
+      if (sizeBadge) sizeBadge.textContent = sizeStr;
+      box.classList.add('has-file');
+    }
+
+    function clearFile() {
+      fileInput.value = '';
+      if (promptEl) promptEl.style.display = 'block';
+      if (selectedEl) selectedEl.style.display = 'none';
+      if (nameEl) nameEl.textContent = '';
+      if (sizeBadge) sizeBadge.textContent = '';
+      box.classList.remove('has-file');
+    }
   });
 }
 

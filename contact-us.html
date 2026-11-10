@@ -371,7 +371,7 @@
 
           <form id="projectEnquiryForm" action="https://api.web3forms.com/submit" method="POST">
           <!-- Web3Forms Integration -->
-          <input type="hidden" name="access_key" value="410bd810-3ecf-4177-91ec-199e1de25e80">
+          <input type="hidden" name="access_key" value="26748df0-d9b7-47fa-97c8-c7658354fba7">
           <input type="hidden" name="subject" value="New Engineering Project Proposal Enquiry - RAP Technologies">
           <input type="hidden" name="from_name" value="RAP Technologies Staging Website">
           <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
@@ -442,15 +442,25 @@
               <!-- File Upload (Secure Handling) -->
               <div class="form-group full-width">
                 <label class="form-label">Attach Project Drawings / RFQ Files (Optional)</label>
-                <div class="form-file-box" onclick="document.getElementById('fileUploadInput').click();">
+                <div class="form-file-box">
                   <input type="file" id="fileUploadInput" name="fileUpload" style="display: none;" accept=".pdf,.dwg,.dxf,.step,.stp,.iges,.zip,.rar">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto 0.5rem; color: var(--color-accent-blue);">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="17 8 12 3 7 8"></polyline>
-                    <line x1="12" y1="3" x2="12" y2="15"></line>
-                  </svg>
-                  <p style="margin: 0; font-size: 0.875rem;"><strong>Click to browse</strong> or drag &amp; drop your project files</p>
-                  <span style="font-size: 0.75rem; color: var(--color-slate-500); display: block; margin-top: 4px;">Supported: DWG, DXF, STEP, PDF, ZIP (Max 25 MB). All transfers are encrypted and NDA-protected.</span>
+                  <div class="file-upload-prompt">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto 0.5rem; color: var(--color-accent-blue);">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="17 8 12 3 7 8"></polyline>
+                      <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <p style="margin: 0; font-size: 0.875rem;"><strong>Click to browse</strong> or drag &amp; drop your project files</p>
+                    <span style="font-size: 0.75rem; color: var(--color-slate-500); display: block; margin-top: 4px;">Supported: DWG, DXF, STEP, PDF, ZIP (Max 25 MB). All transfers are encrypted and NDA-protected.</span>
+                  </div>
+                  <div class="file-selected-info" style="display: none;">
+                    <div class="file-selected-details">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      <span class="file-name-text"></span>
+                      <span class="file-size-badge"></span>
+                    </div>
+                    <button type="button" class="file-remove-btn" title="Remove selected file">&times;</button>
+                  </div>
                 </div>
               </div>
             </div>

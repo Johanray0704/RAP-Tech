@@ -227,7 +227,7 @@ function initEnquiryForm() {
 
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const name = form.querySelector('[name="fullName"]')?.value.trim();
@@ -240,7 +240,7 @@ function initEnquiryForm() {
     const scope = form.querySelector('[name="projectScope"]')?.value.trim();
     const consent = form.querySelector('[name="ndaConsent"]')?.checked;
     const accessKeyInput = form.querySelector('[name="access_key"]');
-    const accessKey = accessKeyInput ? accessKeyInput.value.trim() : '';
+    const accessKey = accessKeyInput ? accessKeyInput.value.trim() : '26748df0-d9b7-47fa-97c8-c7658354fba7';
 
     if (!name || !email) {
       alert('Please fill in required fields (Name and Business Email).');
@@ -255,9 +255,9 @@ function initEnquiryForm() {
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
     submitBtn.disabled = true;
-    submitBtn.innerHTML = 'Connecting to WhatsApp...';
+    submitBtn.innerHTML = 'Sending Enquiry & Connecting...';
 
-            // Format clean professional WhatsApp lead message for MD (+91 9444167875)
+    // Format clean professional WhatsApp lead message for MD (+91 9444167875)
     let msg = "*NEW PROJECT ENQUIRY - RAP Technologies*\n";
     msg += "----------------------------------------\n";
     msg += "*Client Name:* " + name + "\n";
@@ -273,18 +273,24 @@ function initEnquiryForm() {
 
     const whatsappUrl = "https://wa.me/919444167875?text=" + encodeURIComponent(msg);
 
-    // Optional background email send if Web3Forms key is set
-    if (accessKey && accessKey !== 'YOUR_ACCESS_KEY_HERE') {
-      try {
-        const formData = new FormData(form);
-        fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          body: formData
-        }).catch(err => console.log('Web3Forms background send notice:', err));
-      } catch (err) {}
+    // 1. Send Email in Background via Web3Forms
+    try {
+      const formData = new FormData(form);
+      formData.set('access_key', accessKey);
+      
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData
+      }).then(res => res.json()).then(data => {
+        console.log('Web3Forms email delivery status:', data);
+      }).catch(err => {
+        console.log('Web3Forms background send notice:', err);
+      });
+    } catch (err) {
+      console.log('Web3Forms form data error:', err);
     }
 
-    // Direct client to WhatsApp with pre-filled message
+    // 2. Open WhatsApp simultaneously with pre-filled message
     setTimeout(() => {
       window.open(whatsappUrl, '_blank');
 
@@ -294,13 +300,14 @@ function initEnquiryForm() {
 
       if (feedback) {
         feedback.className = 'form-feedback success';
-        feedback.innerHTML = '<strong>Enquiry Submitted!</strong> Your project enquiry details have been forwarded directly to our Engineering Leadership on WhatsApp (+91 9444167875). Our technical team will review your specifications and reply under strict NDA within 24 hours.<br><br>If WhatsApp did not open automatically, <a href=\"' + whatsappUrl + '\" target=\"_blank\" style=\"color: #0284c7; text-decoration: underline; font-weight: 700;\">click here to send on WhatsApp &rarr;</a>';
+        feedback.innerHTML = '<strong>Enquiry Successfully Dispatched!</strong> Your project enquiry has been sent to our inbox, and our Engineering Leadership is connected on WhatsApp (+91 9444167875). We will review your specifications under strict NDA and reply within 24 business hours.<br><br>If WhatsApp did not open automatically, <a href=\"' + whatsappUrl + '\" target=\"_blank\" style=\"color: #0284c7; text-decoration: underline; font-weight: 700;\">click here to send on WhatsApp &rarr;</a>';
         feedback.style.display = 'block';
         feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
-    }, 500);
+    }, 600);
   });
 }
+
 /**
  * Portfolio Interactive Filtering & Lightbox
  */

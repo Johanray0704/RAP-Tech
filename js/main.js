@@ -240,7 +240,7 @@ function initEnquiryForm() {
     const scope = form.querySelector('[name="projectScope"]')?.value.trim();
     const consent = form.querySelector('[name="ndaConsent"]')?.checked;
     const accessKeyInput = form.querySelector('[name="access_key"]');
-    const accessKey = accessKeyInput ? accessKeyInput.value.trim() : '26748df0-d9b7-47fa-97c8-c7658354fba7';
+    const accessKey = accessKeyInput ? accessKeyInput.value.trim() : '410bd810-3ecf-4177-91ec-199e1de25e80';
 
     if (!name || !email) {
       alert('Please fill in required fields (Name and Business Email).');

@@ -60,7 +60,7 @@ function initMobileMenu() {
     const link = item.querySelector('.nav-link');
     if (link) {
       link.addEventListener('click', (e) => {
-        if (window.innerWidth <= 1100) {
+        if (window.innerWidth <= 1200) {
           e.preventDefault();
           e.stopPropagation();
           const isOpen = item.classList.contains('open');
@@ -77,7 +77,7 @@ function initMobileMenu() {
   const dropdownLinks = document.querySelectorAll('.dropdown-item');
   dropdownLinks.forEach(link => {
     link.addEventListener('click', () => {
-      if (window.innerWidth <= 1100) {
+      if (window.innerWidth <= 1200) {
         closeMenu();
       }
     });

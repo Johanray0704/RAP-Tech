@@ -17,7 +17,82 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=1.7">
+  <style>
+    /* Instant overrides for mobile submenu white card & hamburger icon */
+    .mobile-toggle[aria-expanded="true"] .icon-hamburger { display: none !important; }
+    .mobile-toggle[aria-expanded="true"] .icon-close { display: block !important; }
+    .mobile-toggle[aria-expanded="false"] .icon-hamburger { display: block !important; }
+    .mobile-toggle[aria-expanded="false"] .icon-close { display: none !important; }
+    
+    @media (max-width: 1200px) {
+      .nav-item {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+      }
+      .nav-link {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        box-sizing: border-box !important;
+      }
+      .dropdown-menu {
+        position: static !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        display: none !important;
+      }
+      .nav-item.open .dropdown-menu {
+        display: flex !important;
+        flex-direction: column !important;
+        position: static !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        background-color: #FFFFFF !important;
+        border: 1px solid #E2E8F0 !important;
+        border-radius: 12px !important;
+        padding: 0.65rem !important;
+        margin-top: 0.5rem !important;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+      .dropdown-item {
+        display: block !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 0.75rem 0.85rem !important;
+      }
+      .dropdown-item strong {
+        color: #0F172A !important;
+        font-size: 0.9375rem !important;
+        font-weight: 700 !important;
+        display: block !important;
+      }
+      .dropdown-item .item-desc {
+        color: #64748B !important;
+        font-size: 0.78125rem !important;
+        display: block !important;
+      }
+      .dropdown-item:hover, .dropdown-item:active, .dropdown-item.active {
+        background-color: #0A192F !important;
+        border-radius: 6px !important;
+      }
+      .dropdown-item:hover strong, .dropdown-item:active strong, .dropdown-item.active strong {
+        color: #FFFFFF !important;
+      }
+      .dropdown-item:hover .item-desc, .dropdown-item:active .item-desc, .dropdown-item.active .item-desc {
+        color: #CBD5E1 !important;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -330,6 +405,6 @@
   <a href="https://wa.me/919444167875" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-fab" aria-label="Chat with RAP Technologies on WhatsApp">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.698.056-2.144-.543-1.636-.681-2.698-2.348-2.779-2.457-.082-.108-.669-.893-.669-1.704 0-.811.424-1.21.575-1.373.15-.164.331-.205.441-.205.111 0 .221.002.319.007.103.005.241-.039.378.291.144.348.492 1.2.535 1.288.044.088.073.19.014.307-.059.117-.088.19-.175.292-.088.102-.186.228-.266.307-.088.088-.18.184-.078.36.102.176.456.751.98 1.217.674.6 1.243.785 1.419.873.176.088.279.073.383-.044.103-.117.441-.513.559-.689.118-.176.236-.147.397-.088.162.059 1.026.484 1.202.572.176.088.294.132.338.206.044.074.044.428-.1 1.042z"/></svg>
   </a>
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=1.4"></script>
 </body>
 </html>

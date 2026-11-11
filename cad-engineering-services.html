@@ -26,6 +26,16 @@
     .mobile-toggle[aria-expanded="false"] .icon-close { display: none !important; }
     
     @media (max-width: 1200px) {
+      .nav-menu {
+        top: 76px !important;
+        top: var(--header-height, 76px) !important;
+        height: calc(100vh - var(--header-height, 76px)) !important;
+        height: calc(100dvh - var(--header-height, 76px)) !important;
+        padding: 1.5rem 1.25rem 3.5rem !important;
+      }
+      .nav-menu .nav-item:first-child {
+        margin-top: 0.35rem !important;
+      }
       .nav-item {
         width: 100% !important;
         display: flex !important;

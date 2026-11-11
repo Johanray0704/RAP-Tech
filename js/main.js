@@ -32,16 +32,6 @@ function initStickyHeader() {
   handleScroll();
 }
 
-function updateHeaderHeight() {
-  const header = document.querySelector('.main-header');
-  if (header) {
-    const h = Math.round(header.getBoundingClientRect().height);
-    if (h > 0) {
-      document.documentElement.style.setProperty('--header-height', `${h}px`);
-    }
-  }
-}
-
 /**
  * Mobile Navigation Drawer & Accordion
  */
@@ -49,9 +39,6 @@ function initMobileMenu() {
   const toggleBtn = document.querySelector('.mobile-toggle');
   const navMenu = document.querySelector('.nav-menu');
   if (!toggleBtn || !navMenu) return;
-
-  updateHeaderHeight();
-  window.addEventListener('resize', updateHeaderHeight);
 
   const closeMenu = () => {
     toggleBtn.setAttribute('aria-expanded', 'false');
@@ -66,7 +53,6 @@ function initMobileMenu() {
     navMenu.classList.toggle('active');
     document.body.classList.toggle('menu-open');
     if (!isExpanded) {
-      updateHeaderHeight();
       navMenu.scrollTop = 0; // Ensure Home button is always cleanly visible at the top
     }
   });

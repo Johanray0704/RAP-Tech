@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -1441,7 +1441,7 @@
         <div class="contact-info-panel">
           <span class="section-badge">Get in Touch</span>
           <h2 class="section-title">Start Your Project Consultation</h2>
-          <p class="section-description" style="margin-bottom: 2rem;">
+          <p class="section-description intro-desc">
             Whether you require custom CAD plugins, dedicated drafting resources, or MEP BIM coordination, our senior technical team is ready to assist.
           </p>
 
@@ -1488,7 +1488,7 @@
           </div>
 
           <!-- Secondary WhatsApp Option as Requested in Brief -->
-          <div style="margin-bottom: 1.5rem;">
+          <div class="btn-whatsapp-wrapper">
             <a href="https://wa.me/919444167875" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg" style="width: 100%;">
               <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
                 <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.698.056-2.144-.543-1.636-.681-2.698-2.348-2.779-2.457-.082-.108-.669-.893-.669-1.704 0-.811.424-1.21.575-1.373.15-.164.331-.205.441-.205.111 0 .221.002.319.007.103.005.241-.039.378.291.144.348.492 1.2.535 1.288.044.088.073.19.014.307-.059.117-.088.19-.175.292-.088.102-.186.228-.266.307-.088.088-.18.184-.078.36.102.176.456.751.98 1.217.674.6 1.243.785 1.419.873.176.088.279.073.383-.044.103-.117.441-.513.559-.689.118-.176.236-.147.397-.088.162.059 1.026.484 1.202.572.176.088.294.132.338.206.044.074.044.428-.1 1.042z"/>
@@ -1602,34 +1602,11 @@
                 <input type="text" name="cadSoftware" class="form-input" placeholder="e.g. AutoCAD 2024, BricsCAD V24, Revit 2023, SolidWorks, etc.">
               </div>
 
-              <div class="form-group full-width">
+              <div class="form-group full-width textarea-group">
                 <label class="form-label">Project Scope / Requirements Description *</label>
-                <textarea name="projectDescription" class="form-textarea" placeholder="Please outline your project goals, drawing volume, deliverables, timeline, or API requirements..." required></textarea>
+                <textarea name="projectDescription" class="form-textarea" rows="6" placeholder="Please outline your project goals, drawing volume, deliverables, timeline, or API requirements..." required></textarea>
               </div>
-
-              <div class="form-group full-width">
-                <label class="form-label">Optional File Attachment (PDF, ZIP, DWG, STEP - Max 25MB)</label>
-                <label for="fileUpload" class="form-file-box" style="display: block; cursor: pointer;">
-                  <input type="file" id="fileUpload" name="fileUpload" style="display: none;" accept=".pdf,.dwg,.dxf,.step,.stp,.iges,.zip,.rar,.7z">
-                  <div class="file-upload-prompt">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto; color: var(--color-accent-blue);">
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                      <polyline points="17 8 12 3 7 8"></polyline>
-                      <line x1="12" y1="3" x2="12" y2="15"></line>
-                    </svg>
-                    <p><strong>Click to browse</strong> or drag &amp; drop project drawings/specifications.</p>
-                  </div>
-                  <div class="file-selected-info" style="display: none;">
-                    <div class="file-selected-details">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                      <span class="file-name-text"></span>
-                      <span class="file-size-badge"></span>
-                    </div>
-                    <button type="button" class="file-remove-btn" title="Remove selected file">&times;</button>
-                  </div>
-                </label>
-              </div>
-            </div>
+</div>
 
             <div class="form-checkbox-group">
               <input type="checkbox" id="ndaConsent" name="ndaConsent" required>

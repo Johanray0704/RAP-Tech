@@ -3932,3 +3932,21 @@ img, svg {
     max-width: 320px;
   }
 }
+
+/* FIX (About Us): inline 2-column grids had no mobile rule, so the right column
+   (Our Mission / Our Vision cards) was pushed off-screen. Stack them on tablets/phones. */
+@media (max-width: 991px) {
+  .overview-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 2rem !important;
+  }
+  .overview-grid > * {
+    min-width: 0;
+  }
+  /* Leader profile card (280px + 1fr) */
+  div[style*="grid-template-columns: 280px 1fr"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 1.5rem !important;
+    padding: 1.5rem !important;
+  }
+}

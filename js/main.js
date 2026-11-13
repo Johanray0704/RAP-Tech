@@ -80,7 +80,7 @@ function initMobileMenu() {
   const dropdownLinks = document.querySelectorAll('.dropdown-item');
   dropdownLinks.forEach(link => {
     link.addEventListener('click', () => {
-      if (window.innerWidth <= 1380) {
+      if (window.innerWidth <= 1460) {
         closeMenu();
       }
     });
